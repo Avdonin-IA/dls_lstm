@@ -1,6 +1,6 @@
 """
 Тренировка модели в режиме регрессии.
-Точность модели после 50 эпох - 0.**
+Точность модели после 50 эпох - 0.36
 """
 
 import pandas as pd
@@ -24,9 +24,9 @@ num_classes = 1 # Количество классов, для регрессии
 train_df = pd.read_csv("mnist_data/mnist_train.csv")
 valid_df = pd.read_csv("mnist_data/mnist_test.csv")
 train_data = DataGeneratorRegression(train_df, batch_size=bs,
-									 dim=input_shape)
+				     dim=input_shape)
 valid_data = DataGeneratorRegression(valid_df, batch_size=bs,
-									 dim=input_shape)
+				     dim=input_shape)
 
 # Количество классов, для регрессии - 1.
 num_classes = 1
@@ -50,12 +50,12 @@ model.compile('rmsprop', 'mse', metrics=['accuracy'])
 
 # Callback для динамического изменения learning rate
 reduce_lr = ReduceLROnPlateau(monitor='val_accuracy', patience=3,
-							  verbose=1, factor=0.5, min_lr=1e-4)
+			      verbose=1, factor=0.5, min_lr=1e-4)
 
 model.fit_generator(generator=train_data, 
-				    epochs=50, 
-				    validation_data=valid_data,
-				    callbacks=[reduce_lr])
+		    epochs=50, 
+		    validation_data=valid_data,
+		    callbacks=[reduce_lr])
 
 model.save("models/model_regression.h5")
 
