@@ -26,9 +26,9 @@ num_classes = 19
 train_df = pd.read_csv("mnist_data/mnist_train.csv")
 valid_df = pd.read_csv("mnist_data/mnist_test.csv")
 train_data = DataGeneratorClassification(train_df, batch_size=bs,
-										 dim=input_shape)
+					 dim=input_shape)
 valid_data = DataGeneratorClassification(valid_df, batch_size=bs,
-										 dim=input_shape)
+					 dim=input_shape)
 
 # Создание модели для классификации
 model = Sequential()
@@ -49,12 +49,12 @@ model.compile('rmsprop', 'categorical_crossentropy', metrics=['categorical_accur
 
 # Callback для динамического изменения learning rate
 reduce_lr = ReduceLROnPlateau(monitor='val_categorical_accuracy', patience=3,
-							  verbose=1, factor=0.5, min_lr=1e-4)
+			      verbose=1, factor=0.5, min_lr=1e-4)
 
 model.fit_generator(generator=train_data, 
-				    epochs=50, 
-				    validation_data=valid_data,
-				    callbacks=[reduce_lr])
+		    epochs=50, 
+		    validation_data=valid_data,
+		    callbacks=[reduce_lr])
 
 model.save("models/model_classification.h5")
 
